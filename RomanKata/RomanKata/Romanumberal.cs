@@ -11,25 +11,11 @@ namespace RomanKata
 
         public static int ConvertFromRomanNumeral(string romanNumeral)
         {
-            var seed = new Accumulator { PreviousValue = 0, Total = 0 };
+            var seed = new Accumulator();
             return romanNumeral
                 .Reverse()
-                .Aggregate(seed, (accumulator, character) => Add(Translate(character), accumulator))
+                .Aggregate(seed, (accumulator, character) => accumulator.Add(Translate(character)))
                 .Total;
-        }
-
-        private static Accumulator Add(int currentValue, Accumulator accumulator)
-        {
-            return new Accumulator
-            {
-                PreviousValue = currentValue,
-                Total = accumulator.Total + GetValueWithOperator(accumulator.PreviousValue, currentValue)
-            };
-        }
-
-        private static int GetValueWithOperator(int previous, int current)
-        {
-            return previous > current ? -current : current;
         }
 
         private static int Translate(char character)
@@ -81,7 +67,21 @@ namespace RomanKata
 
     public class Accumulator
     {
-        public int PreviousValue { get; set; }
-        public int Total { get; set; }
+        private int previousValue = 0;
+        public int Total = 0; 
+
+        public Accumulator Add(int currentValue)
+        {
+            return new Accumulator
+            {
+                previousValue = currentValue,
+                Total = Total + GetValueWithOperator(previousValue, currentValue)
+            };
+        }
+
+        private int GetValueWithOperator(int previous, int current)
+        {
+            return previous > current ? -current : current;
+        }
     }
 }
