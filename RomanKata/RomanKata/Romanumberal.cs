@@ -67,16 +67,14 @@ namespace RomanKata
 
     public class Accumulator
     {
-        private int previousValue = 0;
-        public int Total = 0; 
+        private int previousValue;
+        public int Total { get; private set; } 
 
         public Accumulator Add(int currentValue)
         {
-            return new Accumulator
-            {
-                previousValue = currentValue,
-                Total = Total + GetValueWithOperator(previousValue, currentValue)
-            };
+            Total += GetValueWithOperator(previousValue, currentValue);
+            previousValue = currentValue;
+            return this;
         }
 
         private int GetValueWithOperator(int previous, int current)
