@@ -13,32 +13,8 @@ namespace RomanKata
         {
             var seed = new Accumulator();
             return romanNumeral
-                .Reverse()
-                .Aggregate(seed, (accumulator, character) => accumulator.Add(Translate(character)))
+                .Aggregate(seed, (accumulator, character) => accumulator.Add(character))
                 .Total;
-        }
-
-        private static int Translate(char character)
-        {
-            switch (character)
-            {
-                case 'I':
-                    return 1;
-                case 'V':
-                    return 5;
-                case 'X':
-                    return 10;
-                case 'L':
-                    return 50;
-                case 'C':
-                    return 100;
-                case 'D':
-                    return 500;
-                case 'M':
-                    return 1000;
-                default:
-                    return 0;
-            }
         }
 
         private static char Translate(int number)
@@ -68,18 +44,42 @@ namespace RomanKata
     public class Accumulator
     {
         private int previousValue;
-        public int Total { get; private set; } 
+        public int Total { get; private set; }
 
-        public Accumulator Add(int currentValue)
+        public Accumulator Add(char character)
         {
-            Total += GetValueWithOperator(previousValue, currentValue);
+            var currentValue = getValueOf(character);
+            Total += currentValue;
+            if (previousValue < currentValue)
+            {
+                Total -= previousValue;
+                Total -= previousValue;
+            }
             previousValue = currentValue;
             return this;
         }
 
-        private int GetValueWithOperator(int previous, int current)
+        private int getValueOf(char character)
         {
-            return previous > current ? -current : current;
+            switch (character)
+            {
+                case 'I':
+                    return 1;
+                case 'V':
+                    return 5;
+                case 'X':
+                    return 10;
+                case 'L':
+                    return 50;
+                case 'C':
+                    return 100;
+                case 'D':
+                    return 500;
+                case 'M':
+                    return 1000;
+                default:
+                    return 0;
+            }
         }
     }
 }

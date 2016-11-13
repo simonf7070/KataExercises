@@ -16,7 +16,7 @@ namespace RomanKata
         [TestCase("IX", 9)]
         [TestCase("X", 10)]
         [TestCase("MCMLXXXIV", 1984)]
-        public void ConvertFromRomanNumeralSequence(string seq, int expected)
+        public void ConvertRomanNumeral(string seq, int expected)
         {
             Assert.That(Romanumberal.ConvertFromRomanNumeral(seq), Is.EqualTo(expected));
         }
