@@ -5,6 +5,14 @@ namespace RomanKata
 {
     public static class RomanNumeral
     {
+        public static int ConvertFromRomanNumeral(string romanNumeral)
+        {
+            var seed = new NumeralTotaler();
+            return romanNumeral
+                .Aggregate(seed, (numeralTotaler, numeral) => numeralTotaler.Add(numeral))
+                .Total;
+        }
+
         public static string ConvertToRomanNumeral(int number)
         {
             var result = new StringBuilder();
@@ -20,27 +28,13 @@ namespace RomanKata
 
         private static int GetLargestDivider(int value)
         {
-            if (CanDivideValueBy(value, 1000)) return 1000;
-            if (CanDivideValueBy(value, 500)) return 500;
-            if (CanDivideValueBy(value, 100)) return 100;
-            if (CanDivideValueBy(value, 50)) return 50;
-            if (CanDivideValueBy(value, 10)) return 10;
-            if (CanDivideValueBy(value, 5)) return 5;
-
+            if (value.IsDivisableBy(1000)) return 1000;
+            if (value.IsDivisableBy(500)) return 500;
+            if (value.IsDivisableBy(100)) return 100;
+            if (value.IsDivisableBy(50)) return 50;
+            if (value.IsDivisableBy(10)) return 10;
+            if (value.IsDivisableBy(5)) return 5;
             return 1;
-        }
-
-        private static bool CanDivideValueBy(int value, int divider)
-        {
-            return (value / divider) >= 1;
-        }
-
-        public static int ConvertFromRomanNumeral(string romanNumeral)
-        {
-            var seed = new NumeralTotaler();
-            return romanNumeral
-                .Aggregate(seed, (numeralTotaler, numeral) => numeralTotaler.Add(numeral))
-                .Total;
         }
 
         private static char Translate(int number)
@@ -64,6 +58,11 @@ namespace RomanKata
                 default:
                     return ' ';
             }
+        }
+
+        private static bool IsDivisableBy(this int value, int divider)
+        {
+            return value / divider >= 1;
         }
     }
 }
