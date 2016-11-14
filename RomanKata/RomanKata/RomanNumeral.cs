@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace RomanKata
@@ -20,10 +21,42 @@ namespace RomanKata
             while (remainder > 0)
             {
                 var divider = GetLargestDivider(remainder);
-                result.Append(Translate(divider));
-                remainder = remainder - divider;
+
+                int largerDivider;
+                int largerSubtracter;
+                if (UseNextLargestDividerAndSubtraction(remainder, out largerDivider, out largerSubtracter))
+                {
+                    result.Append(Translate(largerSubtracter));
+                    result.Append(Translate(largerDivider));
+                    remainder = remainder - largerDivider - largerSubtracter;
+                }
+                else
+                {
+                    result.Append(Translate(divider));
+                    remainder = remainder - divider;
+                }
             }
             return result.ToString();
+        }
+
+        private static bool UseNextLargestDividerAndSubtraction(int remainder, out int largerDivider, out int largerSubtracter)
+        {
+            largerDivider = 0;
+            largerSubtracter = 0;
+
+            if (remainder == 4)
+            {
+                largerDivider = 5;
+                largerSubtracter = 1;
+                return true;
+            }
+            if (remainder == 9)
+            {
+                largerDivider = 10;
+                largerSubtracter = 1;
+                return true;
+            }
+            return false;
         }
 
         private static int GetLargestDivider(int value)
