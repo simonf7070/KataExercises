@@ -16,24 +16,32 @@ namespace RomanKata
 
         public static string ConvertToRomanNumeral(int number)
         {
+            var numberString = number.ToString();
             var result = new StringBuilder();
-            var remainder = number;
-            while (remainder > 0)
-            {
-                var divider = GetLargestDivider(remainder);
 
-                int largerDivider;
-                int largerSubtracter;
-                if (UseNextLargestDividerAndSubtraction(remainder, out largerDivider, out largerSubtracter))
+            for (int i = 0; i < numberString.Length; i++)
+            {
+                var count = numberString.Length - 1 - i;
+                var s = numberString[i] + new string('0', count);
+                var unit = int.Parse(s);
+                
+                while (unit > 0)
                 {
-                    result.Append(Translate(largerSubtracter));
-                    result.Append(Translate(largerDivider));
-                    remainder = remainder - largerDivider - largerSubtracter;
-                }
-                else
-                {
-                    result.Append(Translate(divider));
-                    remainder = remainder - divider;
+                    var divider = GetLargestDivider(unit);
+
+                    int largerDivider;
+                    int largerSubtracter;
+                    if (UseNextLargestDividerAndSubtraction(unit, out largerDivider, out largerSubtracter))
+                    {
+                        result.Append(Translate(largerSubtracter));
+                        result.Append(Translate(largerDivider));
+                        unit = unit - largerDivider - largerSubtracter;
+                    }
+                    else
+                    {
+                        result.Append(Translate(divider));
+                        unit = unit - divider;
+                    }
                 }
             }
             return result.ToString();
