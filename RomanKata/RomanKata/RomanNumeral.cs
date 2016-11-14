@@ -2,7 +2,7 @@
 
 namespace RomanKata
 {
-    public static class Romanumberal
+    public static class RomanNumeral
     {
         public static string ConvertToRomanNumeral(int number)
         {

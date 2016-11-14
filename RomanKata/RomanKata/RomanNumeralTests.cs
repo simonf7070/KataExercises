@@ -3,7 +3,7 @@
 namespace RomanKata
 {
     [TestFixture]
-    public class RomanumberalTests
+    public class RomanNumeralTests
     {
         [TestCase("I", 1)]
         [TestCase("II", 2)]
@@ -18,13 +18,13 @@ namespace RomanKata
         [TestCase("MCMLXXXIV", 1984)]
         public void ConvertRomanNumeral(string seq, int expected)
         {
-            Assert.That(Romanumberal.ConvertFromRomanNumeral(seq), Is.EqualTo(expected));
+            Assert.That(RomanNumeral.ConvertFromRomanNumeral(seq), Is.EqualTo(expected));
         }
 
         [TestCase(1, "I")]
         public void ConvertToRomanNumeralSequence(int number, string expected)
         {
-            Assert.That(Romanumberal.ConvertToRomanNumeral(number), Is.EqualTo(expected));
+            Assert.That(RomanNumeral.ConvertToRomanNumeral(number), Is.EqualTo(expected));
         }
     }
 }
