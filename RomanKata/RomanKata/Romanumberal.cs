@@ -43,27 +43,27 @@ namespace RomanKata
 
     public class NumeralTotaler
     {
-        private int previousNumeral;
+        private int previous;
         public int Total { get; private set; }
 
         public NumeralTotaler Add(char numeral)
         {
-            var currentNumeral = GetValueOf(numeral);
-            Total += currentNumeral;
-            SubtractPreviousNumeralIfSmallerThanCurrentNumeral(currentNumeral);
-            previousNumeral = currentNumeral;
+            var current = GetValueOf(numeral);
+            Total += current;
+            ReversePreviousAdditionThenSubtractPreviousIfPreviousSmallerThanCurrent(current);
+            previous = current;
             return this;
         }
 
-        private void SubtractPreviousNumeralIfSmallerThanCurrentNumeral(int currentNumeral)
+        private void ReversePreviousAdditionThenSubtractPreviousIfPreviousSmallerThanCurrent(int current)
         {
-            if (previousNumeral < currentNumeral)
-                Total = Total - previousNumeral - previousNumeral;
+            if (previous < current)
+                Total = Total - previous - previous;
         }
 
-        private static int GetValueOf(char character)
+        private static int GetValueOf(char numeral)
         {
-            switch (character)
+            switch (numeral)
             {
                 case 'I':
                     return 1;
