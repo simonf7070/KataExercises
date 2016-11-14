@@ -11,9 +11,9 @@ namespace RomanKata
 
         public static int ConvertFromRomanNumeral(string romanNumeral)
         {
-            var seed = new Accumulator();
+            var seed = new NumeralTotaler();
             return romanNumeral
-                .Aggregate(seed, (accumulator, character) => accumulator.Add(character))
+                .Aggregate(seed, (numeralTotaler, numeral) => numeralTotaler.Add(numeral))
                 .Total;
         }
 
@@ -41,25 +41,27 @@ namespace RomanKata
         }
     }
 
-    public class Accumulator
+    public class NumeralTotaler
     {
-        private int previousValue;
+        private int previousNumeral;
         public int Total { get; private set; }
 
-        public Accumulator Add(char character)
+        public NumeralTotaler Add(char numeral)
         {
-            var currentValue = getValueOf(character);
-            Total += currentValue;
-            if (previousValue < currentValue)
-            {
-                Total -= previousValue;
-                Total -= previousValue;
-            }
-            previousValue = currentValue;
+            var currentNumeral = GetValueOf(numeral);
+            Total += currentNumeral;
+            SubtractPreviousNumeralIfSmallerThanCurrentNumeral(currentNumeral);
+            previousNumeral = currentNumeral;
             return this;
         }
 
-        private int getValueOf(char character)
+        private void SubtractPreviousNumeralIfSmallerThanCurrentNumeral(int currentNumeral)
+        {
+            if (previousNumeral < currentNumeral)
+                Total = Total - previousNumeral - previousNumeral;
+        }
+
+        private static int GetValueOf(char character)
         {
             switch (character)
             {
