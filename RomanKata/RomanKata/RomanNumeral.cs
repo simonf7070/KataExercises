@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace RomanKata
@@ -13,6 +12,34 @@ namespace RomanKata
                 .Aggregate(seed, (numeralTotaler, numeral) => numeralTotaler.Add(numeral))
                 .Total;
         }
+
+        /*
+        Decimal number to roman numerals conversion
+
+        For decimal number x:
+        
+        1. From the following table, find the highest decimal value v that is less than or equal to the decimal number x
+        and its corresponding roman numeral n:
+ 
+            Decimal value(v)   Roman numeral(n)
+            1	               I
+            4	               IV
+            5	               V
+            9	               IX
+            10	               X
+            40	               XL
+            50	               L
+            90	               XC
+            100	               C
+            400	               CD
+            500	               D
+            900	               CM
+            1000	           M
+
+        2. Write the roman numeral n that you found and subtract its value v from x:
+            x = x - v
+        3. Repeat stages 1 and 2 until you get zero result of x.
+        */
 
         public static string ConvertToRomanNumeral(int number)
         {
